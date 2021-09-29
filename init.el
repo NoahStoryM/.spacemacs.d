@@ -729,6 +729,9 @@ before packages are loaded."
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   (symon-mode t)
 
+  ;; add auto-mode-lists
+  (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
+
   ;; Solve the problem of alignment between Chinese and English in the org table
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)

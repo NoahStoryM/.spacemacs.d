@@ -2,11 +2,11 @@
 # name: main module
 # key: main.
 # --
-${1:(: main [-> String * (Values Any)])
+${1:(: main [-> String * (Values${2: Any})])
 }(define main
   (λ argv
     (call/cc
-     (λ ([${2:return} : [-> Any Nothing]])
+     (λ ([${3:return} : [->$2 Nothing]])
        (when (null? argv)
          (set! argv (vector->list (current-command-line-arguments))))
 
@@ -14,5 +14,5 @@ ${1:(: main [-> String * (Values Any)])
        $0
 
 
-       ($2 ${3:0})))))
+       ($3 ${4:0})))))
 (module+ main (call-with-values (λ () (main)) exit))

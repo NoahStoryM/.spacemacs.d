@@ -79,4 +79,13 @@
              (displayln "\n**********************************************************************")]))))
 
 
-(deal-dir (string->path "snippets"))
+(: main [-> String * (Values Any)])
+(define main
+  (λ argv
+    (when (null? argv)
+      (set! argv (vector->list (current-command-line-arguments))))
+
+    (deal-dir (string->path "snippets"))
+
+    (values 0)))
+(module+ main (call-with-values (λ () (main)) exit))

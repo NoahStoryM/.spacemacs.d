@@ -12,3 +12,7 @@
 	path = packages/spacemacs-theme
 	url = https://github.com/NoahStoryM/spacemacs-theme
 	branch = Noah
+[submodule "/home/noah/Desktop/.spacemacs.d/packages/spacemacs-theme"]
+	path = /home/noah/Desktop/.spacemacs.d/packages/spacemacs-theme
+	url = https://github.com/NoahStoryM/spacemacs-theme
+	branch = Noah

@@ -406,7 +406,7 @@ to 'auto, tags may not be properly aligned. "
      `(ess-r-signal-keyword-face ((,class (:foreground ,war))))
 
 ;;;;; evil
-     `(evil-ex-lazy-highlight ((,class (:background ,mat :foreground ,bg1))))
+     `(evil-ex-lazy-highlight ((,class (:inherit lazy-highlight))))
      `(evil-ex-substitute-matches ((,class (:background ,red-bg :foreground ,red))))
      `(evil-ex-substitute-replacement ((,class (:background ,green-bg :foreground ,green))))
 

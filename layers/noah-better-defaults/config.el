@@ -53,7 +53,7 @@
 (add-to-list 'auto-mode-alist '("\\.sls\\'"       . scheme-mode))
 (add-to-list 'auto-mode-alist '("\\.sps\\'"       . scheme-mode))
 (add-to-list 'auto-mode-alist '("\\.xexpr\\'"     . racket-mode))
-(add-to-list 'auto-mode-alist '("\\.xexprs\\'"     . racket-mode))
+(add-to-list 'auto-mode-alist '("\\.xexprs\\'"    . racket-mode))
 (add-to-list 'auto-mode-alist '("\\.snippet\\'"   . snippet-mode))
 (add-to-list 'auto-mode-alist '("\\.yasnippet\\'" . snippet-mode))
 (add-to-list 'auto-mode-alist '("\\.rashrc\\'"    . racket-mode))
@@ -327,39 +327,61 @@
                              (seq symbol-start
                                   (or
                                    ;; #d #e #i or no hash prefix
-                                   (seq (? "#" (any "dei"))
-                                        (or (seq (? (any "-+"))
-                                                 (1+ digit)
-                                                 (? (any "./") (1+ digit)))
-                                            (seq (1+ digit)
-                                                 ?e
-                                                 (? (any "-+"))
-                                                 (1+ digit))))
+                                   (seq (? "#" (any "dDeEiI"))
+                                        (? (any "-+"))
+                                        (1+ digit)
+                                        (? (any "./") (1+ digit))
+                                        (? (any "eEfF")
+                                           (? (any "-+"))
+                                           (1+ digit))
+                                        (? (any "-+")
+                                           (1+ digit)
+                                           (? (any "./") (1+ digit))
+                                           (? (any "eEfF")
+                                              (? (any "-+"))
+                                              (1+ digit))
+                                           (any "iI")))
                                    ;; #x
-                                   (seq "#x"
+                                   (seq "#" (any "xX")
                                         (? (any "-+"))
                                         (1+ hex-digit)
-                                        (? (any "./") (1+ hex-digit)))
+                                        (? (any "./") (1+ hex-digit))
+                                        (? (any "-+")
+                                           (1+ hex-digit)
+                                           (? (any "./") (1+ hex-digit))
+                                           (any "iI")))
                                    ;; #b
-                                   (seq "#b"
-                                        (or (seq (? (any "-+"))
-                                                 (1+ (any "01"))
-                                                 (? (any "./") (1+ (any "01"))))
-                                            (seq (1+ (any "01"))
-                                                 ?e
-                                                 (? (any "-+"))
-                                                 (1+ (any "01")))))
+                                   (seq "#" (any "bB")
+                                        (? (any "-+"))
+                                        (1+ (any "01"))
+                                        (? (any "./") (1+ (any "01")))
+                                        (? (any "eEfF")
+                                           (? (any "-+"))
+                                           (1+ (any "01")))
+                                        (? (any "-+")
+                                           (1+ (any "01"))
+                                           (? (any "./") (1+ (any "01")))
+                                           (? (any "eEfF")
+                                              (? (any "-+"))
+                                              (1+ (any "01")))
+                                           (any "iI")))
                                    ;; #o
-                                   (seq "#o"
-                                        (or (seq (? (any "-+"))
-                                                 (1+ (any "0-7"))
-                                                 (? (any "./") (1+ (any "0-7"))))
-                                            (seq (1+ (any "0-7"))
-                                                 ?e
-                                                 (? (any "-+"))
-                                                 (1+ (any "0-7"))))))
+                                   (seq "#" (any "oO")
+                                        (? (any "-+"))
+                                        (1+ (any "0-7"))
+                                        (? (any "./") (1+ (any "0-7")))
+                                        (? (any "eEfF")
+                                           (? (any "-+"))
+                                           (1+ (any "0-7")))
+                                        (? (any "-+")
+                                           (1+ (any "0-7"))
+                                           (? (any "./") (1+ (any "0-7")))
+                                           (? (any "eEfF")
+                                              (? (any "-+"))
+                                              (1+ (any "0-7")))
+                                           (any "iI"))))
                                   symbol-end))
-                           . font-lock-keyword-face)
+                           . font-lock-constant-face)
                           (,(concat "(" (regexp-opt
                                          '("set!"
                                            "eval" "apply"
@@ -516,10 +538,11 @@
             (setq-local comment-start "; ")
             (setq-local prettify-symbols-alist '(("lambda" . ?λ)
                                                  ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl) ?λ))
+                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("trace-lambda" .
-                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))))))
+                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))))))
 
 ;; setq scheme's default geiser-implementations
 (setq geiser-implementations-alist
@@ -720,37 +743,37 @@
             (setq-local comment-start "; ")
             (setq-local prettify-symbols-alist '(("lambda" . ?λ)
                                                  ("trace-lambda" .
-                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))
+                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))
+                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("match-lambda" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("match-lambda*" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?*))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?*))
                                                  ("match-lambda**" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?* (Br . Bl) ?*))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?* (Br . Bl) ?*))
                                                  ("lambda:" .
                                                   (?λ (Br . Bl) ?:))
                                                  ("case-lambda:" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("opt-lambda:" .
-                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("pcase-lambda:" .
-                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("plambda:" .
                                                   (?p (Br . Bl)
                                                       ?λ (Br . Bl) ?:))
                                                  ("popt-lambda:" .
-                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))))))
+                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))))))
 
 (add-hook 'racket-repl-mode-hook
           (lambda ()
@@ -763,32 +786,32 @@
             (setq-local comment-start "; ")
             (setq-local prettify-symbols-alist '(("lambda" . ?λ)
                                                  ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))
+                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("match-lambda" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ))
                                                  ("match-lambda*" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?*))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?*))
                                                  ("match-lambda**" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?* (Br . Bl) ?*))
+                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?* (Br . Bl) ?*))
                                                  ("case-lambda:" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("opt-lambda:" .
-                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("pcase-lambda:" .
-                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
+                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
                                                  ("plambda:" .
                                                   (?p (Br . Bl)
                                                       ?λ (Br . Bl) ?:))
                                                  ("popt-lambda:" .
-                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl) ?- (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))))))
+                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))))))
 
 ;;; set scribble-mode
 (add-hook 'scribble-mode-hook

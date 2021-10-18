@@ -326,6 +326,20 @@
                           (,(rx
                              (seq symbol-start
                                   (or
+                                   ;; #[2-36]r
+                                   (seq "#"
+                                        (0+ ?0)
+                                        (or (any "2-9")
+                                            (seq (any "1-2") (any "0-9"))
+                                            (seq ?3 (any "0-6")))
+                                        (any "rR")
+                                        (? (any "-+"))
+                                        (1+ (any "0-9" "a-z" "A-Z"))
+                                        (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
+                                        (? (any "-+")
+                                           (1+ (any "0-9" "a-z" "A-Z"))
+                                           (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
+                                           (any "iI")))
                                    ;; #d #e #i or no hash prefix
                                    (seq (? "#" (any "dDeEiI"))
                                         (? (any "-+"))

@@ -235,7 +235,7 @@
   (font-lock-add-keywords
    mode
    `((,(rx
-        (seq ?# (or "'" "`" ",@" ",")))
+        (seq (? ?#) (or "'" "`" ",@" ",")))
       . font-lock-builtin-face))))
 
 (dolist (mode '(scheme-mode))

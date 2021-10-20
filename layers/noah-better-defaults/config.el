@@ -575,6 +575,13 @@
 (dolist (mode '(emacs-lisp-mode common-lisp-mode))
   (font-lock-add-keywords
    mode
+   `((,(rx
+        (seq (or "'" "`" ",@" ",")))
+      . font-lock-builtin-face))))
+
+(dolist (mode '(emacs-lisp-mode common-lisp-mode))
+  (font-lock-add-keywords
+   mode
    `((,(regexp-opt
         '("else" "_" "..." "...+" "."
           "eval" "apply" "map")

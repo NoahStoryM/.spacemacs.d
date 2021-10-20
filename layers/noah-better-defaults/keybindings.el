@@ -286,12 +286,7 @@
 (spacemacs/set-leader-keys "t t" 'tabbar-mode)
 
 ;; set asm-mode
-(add-hook 'asm-mode-hook
-          (lambda ()
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+;; (add-hook 'asm-mode-hook (lambda ()))
 (spacemacs/set-leader-keys-for-major-mode 'asm-mode "'" 'gdb)
 
 ;; set masm-mode
@@ -300,54 +295,28 @@
             (define-key masm-mode-map (kbd ";") 'nil)))
 
 ;; delete four spaces and semi in nasm c, c++, java, octave, matlab mode.
-(add-hook 'nasm-mode-hook
-          (lambda ()
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+;; (add-hook 'nasm-mode-hook (lambda ()))
 (spacemacs/set-leader-keys-for-major-mode 'nasm-mode "'" 'gdb)
 
 (add-hook 'c-mode-hook
           (lambda ()
-            (define-key c-mode-map (kbd ";") 'self-insert-command)
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+            (define-key c-mode-map (kbd ";") 'self-insert-command)))
 (spacemacs/set-leader-keys-for-major-mode 'c-mode "'" 'gdb)
 
 (add-hook 'c++-mode-hook
           (lambda ()
-            (define-key c++-mode-map (kbd ";") 'self-insert-command)
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+            (define-key c++-mode-map (kbd ";") 'self-insert-command)))
 (spacemacs/set-leader-keys-for-major-mode 'c++-mode "'" 'gdb)
 
 (add-hook 'java-mode-hook
           (lambda ()
-            (define-key java-mode-map (kbd ";") 'self-insert-command)
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+            (define-key java-mode-map (kbd ";") 'self-insert-command)))
 
 (add-hook 'matlab-mode-hook
           (lambda ()
-            (define-key matlab-mode-map (kbd "M-;") 'nil)
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+            (define-key matlab-mode-map (kbd "M-;") 'nil)))
 
-(add-hook 'octave-mode-hook
-          (lambda ()
-            (define-key evil-evilified-state-local-map (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-insert-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-hybrid-state-local-map    (kbd "<backspace>") 'python-indent-dedent-line-backspace)
-            (define-key evil-emacs-state-local-map     (kbd "<backspace>") 'python-indent-dedent-line-backspace)))
+;; (add-hook 'octave-mode-hook (lambda ()))
 
 
 ;; define racket-mode

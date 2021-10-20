@@ -14,7 +14,7 @@
 
 
 ;;;; require packages
-(require 'python)
+;; (require 'python)
 
 ;; set the width of line number
 (text-scale-set -8)
@@ -162,17 +162,19 @@
 
 ;; set c-mode
 (font-lock-add-keywords 'c-mode
-                        `((,(regexp-opt '("&&" "||" "!"
-                                          "..." ";" ":"
-                                          "lambda" "λ")
-                                        'symbols)
+                        `((,(regexp-opt
+                             '("&&" "||" "!"
+                               "..." ";" ":"
+                               "lambda" "λ")
+                             'symbols)
                            . font-lock-keyword-face)
-                          (,(regexp-opt '("="
-                                          "+" "-" "*" "/" "%"
-                                          "&" "|" "^" "~"
-                                          "<<" ">>" ">>>"
-                                          "<" ">" "==" "<=" ">=")
-                                        'symbols)
+                          (,(regexp-opt
+                             '("="
+                               "+" "-" "*" "/" "%"
+                               "&" "|" "^" "~"
+                               "<<" ">>" ">>>"
+                               "<" ">" "==" "<=" ">=")
+                             'symbols)
                            . font-lock-builtin-face))
                         t)
 (add-hook 'c-mode-hook
@@ -182,17 +184,19 @@
 
 ;; set c++-mode
 (font-lock-add-keywords 'c++-mode
-                        `((,(regexp-opt '("&&" "||" "!"
-                                          "..." ";" ":" "::"
-                                          "lambda" "λ")
-                                        'symbols)
+                        `((,(regexp-opt
+                             '("&&" "||" "!"
+                               "..." ";" ":" "::"
+                               "lambda" "λ")
+                             'symbols)
                            . font-lock-keyword-face)
-                          (,(regexp-opt '("="
-                                          "+" "-" "*" "/" "%"
-                                          "&" "|" "^" "~"
-                                          "<<" ">>" ">>>"
-                                          "<" ">" "==" "<=" ">=")
-                                        'symbols)
+                          (,(regexp-opt
+                             '("="
+                               "+" "-" "*" "/" "%"
+                               "&" "|" "^" "~"
+                               "<<" ">>" ">>>"
+                               "<" ">" "==" "<=" ">=")
+                             'symbols)
                            . font-lock-builtin-face))
                         t)
 (add-hook 'c++-mode-hook
@@ -203,23 +207,22 @@
 
 ;; ;; set java-mode
 (font-lock-add-keywords 'java-mode
-                        `((,(regexp-opt '("&&" "||" "!"
-                                          "..." ";" ":"
-                                          "lambda" "λ")
-                                        'symbols)
+                        `((,(regexp-opt
+                             '("&&" "||" "!"
+                               "..." ";" ":"
+                               "lambda" "λ")
+                             'symbols)
                            . font-lock-keyword-face)
-                          (,(regexp-opt '("="
-                                          "+" "-" "*" "/" "%"
-                                          "&" "|" "^" "~"
-                                          "<<" ">>" ">>>"
-                                          "<" ">" "==" "<=" ">=")
-                                        'symbols)
+                          (,(regexp-opt
+                             '("="
+                               "+" "-" "*" "/" "%"
+                               "&" "|" "^" "~"
+                               "<<" ">>" ">>>"
+                               "<" ">" "==" "<=" ">=")
+                             'symbols)
                            . font-lock-builtin-face))
                         t)
-;; (add-hook 'java-mode-hook
-;;           (lambda ()
-;;             (setq-local comment-start "// ")
-;;             (setq-local comment-end "")))
+;; (add-hook 'java-mode-hook (lambda ()))
 
 ;; set css-mode
 (add-hook 'css-mode-hook
@@ -227,15 +230,478 @@
             (setq-local comment-start "/* ")
             (setq-local comment-end   " */")))
 
-;; set lisp-mode
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            ;; (paredit-mode)
-            (evil-paredit-mode)
-            (evil-cleverparens-mode)
-            (evil-cp-redefine-keys)
-            (setq-local comment-start "; ")
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)))))
+;; set lisp-mode face
+(dolist (mode '(scheme-mode racket-mode racket-repl-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(rx
+        (seq ?# (or "'" "`" ",@" ",")))
+      . font-lock-builtin-face))))
+
+(dolist (mode '(scheme-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(rx
+        symbol-start
+        (or "#t" "#T" "#true"
+            "#f" "#F" "#false"
+            (seq (any "-+")
+                 (or (regexp "[iI][nN][fF]")
+                     (regexp "[nN][aA][nN]"))
+                 ".0"))
+        symbol-end)
+      . font-lock-constant-face)
+     (,(regexp-opt
+        '("else" "_" "..." "...+" "."
+          "set!"
+          "eval" "apply"
+          "filter"
+          "amb"
+          "case-λ"
+
+          "untrace" "trace" "trace-call"
+          "trace-lambda" "trace-let"
+          "trace-define" "trace-define-syntax")
+        'symbols)
+      . font-lock-keyword-face)
+     (,(regexp-opt
+        '("+" "-" "*" "/"
+          "<" ">" "=" "<=" ">="
+
+          "exit" "error" "format"
+          "eq?" "eqv?" "equal?"
+
+          "display" "displayln"
+          "write" "writeln"
+          "print" "printf" "println" "fprintf"
+          "newline"
+
+          "read" "read-char"
+
+          "close-port" "close-input-port" "close-output-port"
+          "open-bytevector-output-port"
+          "open-bytevector-input-port"
+          "open-fd-output-port" "open-fd-input-port"
+          "open-fd-input/output-port"
+          "open-source-file"
+          "open-input-file" "open-output-file"
+          "open-input-output-file"
+          "open-file-input-port" "open-file-output-port"
+          "open-file-input/output-port"
+          "open-output-string"
+          "open-input-string"
+          "open-string-input-port"
+          "open-string-output-port"
+          "open-process-ports"
+
+          "assert" "assoc"
+          "assp" "assq" "assv"
+          "assertion-violation" "assertion-violation?"
+          "assertion-violationf"
+
+          "number?"
+          "number->string"
+          "numerator"
+
+          "symbol?"
+          "symbol=?"
+          "symbol->string"
+
+          "string" "string?"
+          "string-length" "string-ref"
+          "string-copy" "string-copy!" "string-append"
+          "string->list" "string->immutable-string"
+          "string->number" "string->symbol"
+          "string-normalize-nfc" "string-normalize-nfd"
+          "string-normalize-nfkc" "string-normalize-nfkd"
+          "string-upcase" "string-downcase"
+          "string-foldcase" "string-titlecase"
+          "string-ci=?"
+          "string-ci<=?" "string-ci<?"
+          "string-ci>=?" "string-ci>?"
+          "string=?" "string<=?" "string>=?"
+          "string<?" "string>?"
+          "string-set!" "string-fill!"
+
+          "vector" "vector?"
+          "vector-length" "vector-ref"
+          "vector->immutable-vector" "vector->list"
+          "vector-set!" "vector-sort!" "vector-fill!"
+          "vector-map" "vector-sort" "vector-copy"
+
+          "box" "box-immutable" "box?"
+          "set-box!" "box-cas!"
+
+          "cons" "pair?" "last-pair"
+          "set-car!" "set-cdr!"
+          "car" "cdr"
+          "caar" "cadr"
+          "cdar" "cddr"
+          "caaar" "caadr"
+          "cadar" "caddr"
+          "cdaar" "cdadr"
+          "cddar" "cdddr"
+          "caaaar" "caaadr"
+          "caadar" "caaddr"
+          "cadaar" "cadadr"
+          "caddar" "cadddr"
+          "cdaaar" "cdaadr"
+          "cdadar" "cdaddr"
+          "cddaar" "cddadr"
+          "cdddar" "cddddr"
+          "list" "list*" "list?"
+          "list->fxvector" "list->string" "list->vector"
+          "list-copy" "list-sort" "list-tail"
+          "list-ref" "list-head" "length"
+          "append" "apeend!" "reverse" "reverse!"
+          "empty" "null" "nil"
+          "empty?" "null?" "nil?"
+          "member"
+          "memp" "memq" "memv"
+          "remv" "remv!"
+          "remp" "remq" "remq!"
+          "remove" "remove!"
+          "remainder"
+          "sort" "sort!"
+
+          "stream-cons" "stream-first" "stream-rest"
+          "stream-car" "stream-cdr"
+          "stream-caar" "stream-cadr"
+          "stream-cdar" "stream-cddr"
+          "stream-caaar" "stream-caadr"
+          "stream-cadar" "stream-caddr"
+          "stream-cdaar" "stream-cdadr"
+          "stream-cddar" "stream-cdddr"
+          "stream-caaaar" "stream-caaadr"
+          "stream-caadar" "stream-caaddr"
+          "stream-cadaar" "stream-cadadr"
+          "stream-caddar" "stream-cadddr"
+          "stream-cdaaar" "stream-cdaadr"
+          "stream-cdadar" "stream-cdaddr"
+          "stream-cddaar" "stream-cddadr"
+          "stream-cdddar" "stream-cddddr"
+          "stream" "stream*" "stream?"
+          "stream-append" "stream-ref"
+          "stream-map" "stream-filter"
+          "empty-stream" "stream-empty?"
+
+          "make-date"
+          "make-parameter"
+          "make-polar" "make-rectangular"
+          "make-input-port" "make-output-port"
+          "make-list" "make-vector" "make-string"
+
+          "zero?" "sub1" "add1" "1+" "1-" "-1+"
+          "true" "false" "true?" "false?"
+          "not" "xor" "nor" "nand" "implies")
+        'symbols)
+      . font-lock-builtin-face))))
+
+(dolist (mode '(racket-mode racket-repl-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(regexp-opt
+        '("eval" "case-λ" "amb" "." "...+" "fn"
+
+          "define-syntax-parser"
+          "define/syntax-parse"
+
+          "untrace" "trace" "trace-call"
+          "trace-lambda" "trace-let"
+          "trace-define" "trace-define-syntax")
+        'symbols)
+      . font-lock-keyword-face)
+     (,(regexp-opt
+        '(":-" "?" "~" "!="
+          ;; "datalog" "datalog!"
+          ;; "make-theory" "write-theory" "read-theory" "theory/c"
+
+          ;; "case-λ:" "λ:" "opt-λ:" "pcase-λ:" "pλ:" "popt-λ:"
+          ;; "match-λ" "match-λ*" "match-λ**"
+
+          "true?"
+          "nil" "nil?"
+
+          "mcaar" "mcadr"
+          "mcdar" "mcddr"
+          "mcaaar" "mcaadr"
+          "mcadar" "mcaddr"
+          "mcdaar" "mcdadr"
+          "mcddar" "mcdddr"
+          "mcaaaar" "mcaaadr"
+          "mcaadar" "mcaaddr"
+          "mcadaar" "mcadadr"
+          "mcaddar" "mcadddr"
+          "mcdaaar" "mcdaadr"
+          "mcdadar" "mcdaddr"
+          "mcddaar" "mcddadr"
+          "mcdddar" "mcddddr"
+          "mlist?" "mlist" "mlist*" "mlistof"
+          "list->mlist" "mlist->list"
+          "mlength" "mlist-ref" "mlist-tail"
+          "mappend" "mappend!"
+          "mreverse" "mreverse!"
+          "mmap" "mfor-each"
+          "mmember" "mmemv" "mmemq" "massoc"
+          "massv" "massq"
+
+          "stream-car" "stream-cdr"
+          "stream-caar" "stream-cadr"
+          "stream-cdar" "stream-cddr"
+          "stream-caaar" "stream-caadr"
+          "stream-cadar" "stream-caddr"
+          "stream-cdaar" "stream-cdadr"
+          "stream-cddar" "stream-cdddr"
+          "stream-caaaar" "stream-caaadr"
+          "stream-caadar" "stream-caaddr"
+          "stream-cadaar" "stream-cadadr"
+          "stream-caddar" "stream-cadddr"
+          "stream-cdaaar" "stream-cdaadr"
+          "stream-cdadar" "stream-cdaddr"
+          "stream-cddaar" "stream-cddadr"
+          "stream-cdddar" "stream-cddddr"
+
+          "serializable?" "serialize" "deserialize" "serialized=?"
+          "deserialize-module-guard"
+          "serializable-struct"
+          "define-serializable-struct"
+          "serializable-struct/versions"
+          "define-serializable-struct/versions"
+          "make-deserialize-info"
+          "prop:serializable"
+          "make-serialize-info"
+
+          "s-exp->fasl" "fasl->s-exp"
+
+
+          "define-splicing-syntax-class"
+          "define-syntax-class"
+
+          "define-conventions"
+          "define-literal-set"
+          "literal-set->predicate"
+
+
+          "syntax-parse-state-ref"
+          "syntax-parse-state-set!"
+          "syntax-parse-state-update!"
+          "syntax-parse-state-cons!"
+          "syntax-parse-track-literals"
+
+          "syntax-class-attributes"
+          "syntax-class-arity"
+          "syntax-class-keywords"
+          "syntax-class-parse"
+          "debug-parse"
+          "debug-syntax-parse!"
+
+
+          "provide-syntax-class/contract"
+          "syntax-class/c"
+
+          "reify-syntax-class"
+          "reified-syntax-class?"
+          "reified-splicing-syntax-class?"
+          "reified-syntax-class-attributes"
+          "reified-syntax-class-arity"
+          "reified-syntax-class-keywords"
+          "reified-syntax-class-curry"
+
+          "~reflect"
+          "~splicing-reflect"
+
+          "define-primitive-splicing-syntax-class"
+          "~eh-var"
+
+          "define-syntax-class/specialize"
+          "template"
+          "template/loc"
+          "quasitemplate"
+          "quasitemplate/loc"
+          "datum-template"
+
+          "??"
+          "~?"
+          "?@"
+          "~@"
+          "define-template-metafunction"
+
+
+          "prop:syntax-class"
+          "pattern"
+          "attribute"
+          "this-syntax"
+
+          "prop:pattern-expander"
+          "pattern-expander"
+          "pattern-expander?"
+          "syntax-local-syntax-parse-pattern-introduce"
+
+
+          "~!"
+          "~bind"
+          "~fail"
+          "~parse"
+          "~do"
+          "~undo"
+
+          "~var"
+          "~literal"
+          "~datum"
+
+          "~and"
+          "~or*"
+          "~or"
+          "~not"
+
+          "~rest"
+          "~describe"
+          "~commit"
+          "~delimit-cut"
+          "~post"
+
+          "~seq"
+          "~optional"
+
+          "~peek"
+          "~peek-not"
+
+          "~alt"
+          "~once"
+          "~between")
+        'symbols)
+      . font-lock-builtin-face))))
+
+(dolist (mode '(emacs-lisp-mode common-lisp-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(regexp-opt
+        '("else" "_" "..." "...+" "."
+          "eval" "apply" "map")
+        'symbols)
+      . font-lock-keyword-face)
+     (,(regexp-opt
+        '("+" "-" "*" "/"
+          "<" ">" "=" "<=" ">="
+          "nil" "t"
+          "setq" "setf"
+          "cons" "consp"
+          "car" "cdr"
+          "caar" "cadr"
+          "cdar" "cddr"
+          "caaar" "caadr"
+          "cadar" "caddr"
+          "cdaar" "cdadr"
+          "cddar" "cdddr"
+          "caaaar" "caaadr"
+          "caadar" "caaddr"
+          "cadaar" "cadadr"
+          "caddar" "cadddr"
+          "cdaaar" "cdaadr"
+          "cdadar" "cdaddr"
+          "cddaar" "cddadr"
+          "cdddar" "cddddr"
+          "list" "list*" "listp" "null"
+          "append" "reverse"
+
+          "true" "false"
+          "not" "xor")
+        'symbols)
+      . font-lock-builtin-face))))
+
+(dolist (mode '(scheme-mode))
+  ;; Highlight Number
+  (font-lock-add-keywords
+   mode
+   `((,(rx
+        symbol-start
+        (or
+         ;; #[2-36]r
+         (seq "#"
+              (0+ ?0)
+              (or (any "2-9")
+                  (seq (any "1-2") (any "0-9"))
+                  (seq ?3 (any "0-6")))
+              (any "rR")
+              (? (any "-+"))
+              (1+ (any "0-9" "a-z" "A-Z"))
+              (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
+              (? (any "-+")
+                 (1+ (any "0-9" "a-z" "A-Z"))
+                 (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
+                 (any "iI")))
+         ;; #d #e #i or no hash prefix
+         (seq (? "#" (any "dDeEiI"))
+              (? (any "-+"))
+              (1+ digit)
+              (? (any "./") (1+ digit))
+              (? (any "eEfF")
+                 (? (any "-+"))
+                 (1+ digit))
+              (? (any "-+")
+                 (1+ digit)
+                 (? (any "./") (1+ digit))
+                 (? (any "eEfF")
+                    (? (any "-+"))
+                    (1+ digit))
+                 (any "iI")))
+         ;; #x
+         (seq "#" (any "xX")
+              (? (any "-+"))
+              (1+ hex-digit)
+              (? (any "./") (1+ hex-digit))
+              (? (any "-+")
+                 (1+ hex-digit)
+                 (? (any "./") (1+ hex-digit))
+                 (any "iI")))
+         ;; #b
+         (seq "#" (any "bB")
+              (? (any "-+"))
+              (1+ (any "01"))
+              (? (any "./") (1+ (any "01")))
+              (? (any "eEfF")
+                 (? (any "-+"))
+                 (1+ (any "01")))
+              (? (any "-+")
+                 (1+ (any "01"))
+                 (? (any "./") (1+ (any "01")))
+                 (? (any "eEfF")
+                    (? (any "-+"))
+                    (1+ (any "01")))
+                 (any "iI")))
+         ;; #o
+         (seq "#" (any "oO")
+              (? (any "-+"))
+              (1+ (any "0-7"))
+              (? (any "./") (1+ (any "0-7")))
+              (? (any "eEfF")
+                 (? (any "-+"))
+                 (1+ (any "0-7")))
+              (? (any "-+")
+                 (1+ (any "0-7"))
+                 (? (any "./") (1+ (any "0-7")))
+                 (? (any "eEfF")
+                    (? (any "-+"))
+                    (1+ (any "0-7")))
+                 (any "iI"))))
+        symbol-end)
+      . font-lock-constant-face))))
+
+;; Highlight Symbol
+(dolist (mode '(emacs-lisp-mode common-lisp-mode scheme-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(rx ?#
+           (or ?` ?')
+           (or
+            (seq ?| (* anychar) ?|)
+            (seq (1+ (or (syntax word) (syntax symbol) (syntax punctuation))))))
+      . font-lock-string-face)
+     (,(rx (or ?` ?')
+           (or
+            (seq ?| (* anychar) ?|)
+            (seq (1+ (or (syntax word) (syntax symbol) (syntax punctuation))))))
+      . font-lock-string-face))))
 
 ;; set common-lisp-mode
 (add-hook 'common-lisp-mode-hook
@@ -244,51 +710,11 @@
             (evil-paredit-mode)
             (evil-cleverparens-mode)
             (evil-cp-redefine-keys)
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)))))
+            (setq-local comment-start "; ")
+            (setq-local prettify-symbols-alist
+                        '(("lambda" . ?λ)))))
 
 ;; set emacs-lisp-mode
-(font-lock-add-keywords 'emacs-lisp-mode
-                        `((,(rx
-                             (seq symbol-start (? "#") (or "'" "`" ",@" ",")))
-                           . font-lock-builtin-face)
-                          (,(regexp-opt '("else" "_" "..." "...+" "."
-                                          "eval" "apply" "map")
-                                        'symbols)
-                           . font-lock-keyword-face)
-                          (,(regexp-opt '("+" "-" "*" "/"
-                                          "<" ">" "=" "<=" ">="
-                                          "nil" "t"
-                                          "setcar" "setcdr"
-                                          "cons" "consp"
-                                          "car" "cdr"
-                                          "caar" "cadr"
-                                          "cdar" "cddr"
-                                          "caaar" "caadr"
-                                          "cadar" "caddr"
-                                          "cdaar" "cdadr"
-                                          "cddar" "cdddr"
-                                          "caaaar" "caaadr"
-                                          "caadar" "caaddr"
-                                          "cadaar" "cadadr"
-                                          "caddar" "cadddr"
-                                          "cdaaar" "cdaadr"
-                                          "cdadar" "cdaddr"
-                                          "cddaar" "cddadr"
-                                          "cdddar" "cddddr"
-                                          "list" "list*" "listp" "null"
-                                          "append" "reverse"
-
-                                          "true" "false"
-                                          "not" "xor")
-                                        'symbols)
-                           . font-lock-builtin-face)
-                          (,(rx (or
-                                 ;; symbol
-                                 (seq ?' ?| (+ any) ?|)
-                                 (seq ?' (1+ (or (syntax word) (syntax symbol))))
-                                 (seq "#\\" (1+ (or (syntax word) (syntax symbol))))))
-                           . font-lock-string-face))
-                        t)
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             ;; (paredit-mode)
@@ -296,7 +722,8 @@
             (evil-cleverparens-mode)
             (evil-cp-redefine-keys)
             (setq-local comment-start "; ")
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)))))
+            (setq-local prettify-symbols-alist
+                        '(("lambda" . ?λ)))))
 
 ;; set iell-mode
 (add-hook 'ielm-mode-hook
@@ -308,240 +735,6 @@
             (setq-local comment-start "; ")))
 
 ;; set scheme-mode
-(font-lock-add-keywords 'scheme-mode
-                        `((,(rx
-                             (seq symbol-start (? "#") (or "'" "`" ",@" ",")))
-                           . font-lock-builtin-face)
-                          (,(regexp-opt '("else" "_" "..." "...+" "."
-                                          "set!"
-                                          "eval" "apply"
-                                          "filter"
-                                          "amb"
-                                          "case-λ"
-
-                                          "untrace" "trace" "trace-call"
-                                          "trace-lambda" "trace-let"
-                                          "trace-define" "trace-define-syntax")
-                                        'symbols)
-                           . font-lock-keyword-face)
-                          (,(regexp-opt '("+" "-" "*" "/"
-                                          "<" ">" "=" "<=" ">="
-
-                                          "exit" "error" "format"
-                                          "eq?" "eqv?" "equal?"
-
-                                          "display" "displayln"
-                                          "write" "writeln"
-                                          "print" "printf" "println" "fprintf"
-                                          "newline"
-
-                                          "read" "read-char"
-
-                                          "close-port" "close-input-port" "close-output-port"
-                                          "open-bytevector-output-port"
-                                          "open-bytevector-input-port"
-                                          "open-fd-output-port" "open-fd-input-port"
-                                          "open-fd-input/output-port"
-                                          "open-source-file"
-                                          "open-input-file" "open-output-file"
-                                          "open-input-output-file"
-                                          "open-file-input-port" "open-file-output-port"
-                                          "open-file-input/output-port"
-                                          "open-output-string"
-                                          "open-input-string"
-                                          "open-string-input-port"
-                                          "open-string-output-port"
-                                          "open-process-ports"
-
-                                          "assert" "assoc"
-                                          "assp" "assq" "assv"
-                                          "assertion-violation" "assertion-violation?"
-                                          "assertion-violationf"
-
-                                          "number?"
-                                          "number->string"
-                                          "numerator"
-
-                                          "symbol?"
-                                          "symbol=?"
-                                          "symbol->string"
-
-                                          "string" "string?"
-                                          "string-length" "string-ref"
-                                          "string-copy" "string-copy!" "string-append"
-                                          "string->list" "string->immutable-string"
-                                          "string->number" "string->symbol"
-                                          "string-normalize-nfc" "string-normalize-nfd"
-                                          "string-normalize-nfkc" "string-normalize-nfkd"
-                                          "string-upcase" "string-downcase"
-                                          "string-foldcase" "string-titlecase"
-                                          "string-ci=?"
-                                          "string-ci<=?" "string-ci<?"
-                                          "string-ci>=?" "string-ci>?"
-                                          "string=?" "string<=?" "string>=?"
-                                          "string<?" "string>?"
-                                          "string-set!" "string-fill!"
-
-                                          "vector" "vector?"
-                                          "vector-length" "vector-ref"
-                                          "vector->immutable-vector" "vector->list"
-                                          "vector-set!" "vector-sort!" "vector-fill!"
-                                          "vector-map" "vector-sort" "vector-copy"
-
-                                          "box" "box-immutable" "box?"
-                                          "set-box!" "box-cas!"
-
-                                          "cons" "pair?" "last-pair"
-                                          "set-car!" "set-cdr!"
-                                          "car" "cdr"
-                                          "caar" "cadr"
-                                          "cdar" "cddr"
-                                          "caaar" "caadr"
-                                          "cadar" "caddr"
-                                          "cdaar" "cdadr"
-                                          "cddar" "cdddr"
-                                          "caaaar" "caaadr"
-                                          "caadar" "caaddr"
-                                          "cadaar" "cadadr"
-                                          "caddar" "cadddr"
-                                          "cdaaar" "cdaadr"
-                                          "cdadar" "cdaddr"
-                                          "cddaar" "cddadr"
-                                          "cdddar" "cddddr"
-                                          "list" "list*" "list?"
-                                          "list->fxvector" "list->string" "list->vector"
-                                          "list-copy" "list-sort" "list-tail"
-                                          "list-ref" "list-head" "length"
-                                          "append" "apeend!" "reverse" "reverse!"
-                                          "empty" "null" "nil"
-                                          "empty?" "null?" "nil?"
-                                          "member"
-                                          "memp" "memq" "memv"
-                                          "remv" "remv!"
-                                          "remp" "remq" "remq!"
-                                          "remove" "remove!"
-                                          "remainder"
-                                          "sort" "sort!"
-
-                                          "stream-cons" "stream-first" "stream-rest"
-                                          "stream-car" "stream-cdr"
-                                          "stream-caar" "stream-cadr"
-                                          "stream-cdar" "stream-cddr"
-                                          "stream-caaar" "stream-caadr"
-                                          "stream-cadar" "stream-caddr"
-                                          "stream-cdaar" "stream-cdadr"
-                                          "stream-cddar" "stream-cdddr"
-                                          "stream-caaaar" "stream-caaadr"
-                                          "stream-caadar" "stream-caaddr"
-                                          "stream-cadaar" "stream-cadadr"
-                                          "stream-caddar" "stream-cadddr"
-                                          "stream-cdaaar" "stream-cdaadr"
-                                          "stream-cdadar" "stream-cdaddr"
-                                          "stream-cddaar" "stream-cddadr"
-                                          "stream-cdddar" "stream-cddddr"
-                                          "stream" "stream*" "stream?"
-                                          "stream-append" "stream-ref"
-                                          "stream-map" "stream-filter"
-                                          "empty-stream" "stream-empty?"
-
-                                          "make-date"
-                                          "make-parameter"
-                                          "make-polar" "make-rectangular"
-                                          "make-input-port" "make-output-port"
-                                          "make-list" "make-vector" "make-string"
-
-                                          "zero?" "sub1" "add1" "1+" "1-" "-1+"
-                                          "true" "false" "true?" "false?"
-                                          "not" "xor" "nor" "nand" "implies")
-                                        'symbols)
-                           . font-lock-builtin-face)
-                          (,(regexp-opt '("#t" "#T" "#true" "#f" "#F" "#false"
-                                          "+inf.0" "-inf.0" "+nan.0" "-nan.0")
-                                        'symbols)
-                           . font-lock-string-face)
-                          (,(rx (or
-                                 ;; symbol
-                                 (seq ?' ?| (+ any) ?|)
-                                 (seq ?' (1+ (or (syntax word) (syntax symbol))))
-                                 (seq "#\\" (1+ (or (syntax word) (syntax symbol))))))
-                           . font-lock-string-face)
-
-                          ;; Numeric literals including Scheme reader hash prefixes.
-                          (,(rx
-                             (seq symbol-start
-                                  (or
-                                   ;; #[2-36]r
-                                   (seq "#"
-                                        (0+ ?0)
-                                        (or (any "2-9")
-                                            (seq (any "1-2") (any "0-9"))
-                                            (seq ?3 (any "0-6")))
-                                        (any "rR")
-                                        (? (any "-+"))
-                                        (1+ (any "0-9" "a-z" "A-Z"))
-                                        (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
-                                        (? (any "-+")
-                                           (1+ (any "0-9" "a-z" "A-Z"))
-                                           (? (any "./") (1+ (any "0-9" "a-z" "A-Z")))
-                                           (any "iI")))
-                                   ;; #d #e #i or no hash prefix
-                                   (seq (? "#" (any "dDeEiI"))
-                                        (? (any "-+"))
-                                        (1+ digit)
-                                        (? (any "./") (1+ digit))
-                                        (? (any "eEfF")
-                                           (? (any "-+"))
-                                           (1+ digit))
-                                        (? (any "-+")
-                                           (1+ digit)
-                                           (? (any "./") (1+ digit))
-                                           (? (any "eEfF")
-                                              (? (any "-+"))
-                                              (1+ digit))
-                                           (any "iI")))
-                                   ;; #x
-                                   (seq "#" (any "xX")
-                                        (? (any "-+"))
-                                        (1+ hex-digit)
-                                        (? (any "./") (1+ hex-digit))
-                                        (? (any "-+")
-                                           (1+ hex-digit)
-                                           (? (any "./") (1+ hex-digit))
-                                           (any "iI")))
-                                   ;; #b
-                                   (seq "#" (any "bB")
-                                        (? (any "-+"))
-                                        (1+ (any "01"))
-                                        (? (any "./") (1+ (any "01")))
-                                        (? (any "eEfF")
-                                           (? (any "-+"))
-                                           (1+ (any "01")))
-                                        (? (any "-+")
-                                           (1+ (any "01"))
-                                           (? (any "./") (1+ (any "01")))
-                                           (? (any "eEfF")
-                                              (? (any "-+"))
-                                              (1+ (any "01")))
-                                           (any "iI")))
-                                   ;; #o
-                                   (seq "#" (any "oO")
-                                        (? (any "-+"))
-                                        (1+ (any "0-7"))
-                                        (? (any "./") (1+ (any "0-7")))
-                                        (? (any "eEfF")
-                                           (? (any "-+"))
-                                           (1+ (any "0-7")))
-                                        (? (any "-+")
-                                           (1+ (any "0-7"))
-                                           (? (any "./") (1+ (any "0-7")))
-                                           (? (any "eEfF")
-                                              (? (any "-+"))
-                                              (1+ (any "0-7")))
-                                           (any "iI"))))
-                                  symbol-end))
-                           . font-lock-constant-face))
-                        t)
-
 ;; set indent for scheme
 (put 'case-λ 'scheme-indent-function 0)
 
@@ -553,13 +746,14 @@
             (evil-cleverparens-mode)
             (evil-cp-redefine-keys)
             (setq-local comment-start "; ")
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)
-                                                 ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("trace-lambda" .
-                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))))))
+            (setq-local prettify-symbols-alist
+                        '(("lambda" . ?λ)
+                          ("case-lambda" .
+                           (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                               ?- (Br . Bl) ?λ))
+                          ("trace-lambda" .
+                           (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
+                               ?- (Br . Bl) ?λ))))))
 
 ;; setq scheme's default geiser-implementations
 (setq geiser-implementations-alist
@@ -568,182 +762,7 @@
         ((regexp "\\.ss$")
          chez)))
 
-;;; set racket-mode
-(font-lock-add-keywords 'racket-mode
-                        `((,(rx
-                             (seq symbol-start (? "#") (or "'" "`" ",@" ",")))
-                           . font-lock-builtin-face)
-                          (,(regexp-opt '("eval" "case-λ" "amb" "." "...+" "fn"
-
-                                          "define-syntax-parser"
-                                          "define/syntax-parse"
-
-                                          "untrace" "trace" "trace-call"
-                                          "trace-lambda" "trace-let"
-                                          "trace-define" "trace-define-syntax")
-                                        'symbols)
-                           . font-lock-keyword-face)
-                          (,(regexp-opt '(":-" "?" "~" "!="
-                                          ;; "datalog" "datalog!"
-                                          ;; "make-theory" "write-theory" "read-theory" "theory/c"
-
-                                          ;; "case-λ:" "λ:" "opt-λ:" "pcase-λ:" "pλ:" "popt-λ:"
-                                          ;; "match-λ" "match-λ*" "match-λ**"
-
-                                          "true?"
-                                          "nil" "nil?"
-
-                                          "mcaar" "mcadr"
-                                          "mcdar" "mcddr"
-                                          "mcaaar" "mcaadr"
-                                          "mcadar" "mcaddr"
-                                          "mcdaar" "mcdadr"
-                                          "mcddar" "mcdddr"
-                                          "mcaaaar" "mcaaadr"
-                                          "mcaadar" "mcaaddr"
-                                          "mcadaar" "mcadadr"
-                                          "mcaddar" "mcadddr"
-                                          "mcdaaar" "mcdaadr"
-                                          "mcdadar" "mcdaddr"
-                                          "mcddaar" "mcddadr"
-                                          "mcdddar" "mcddddr"
-                                          "mlist?" "mlist" "mlist*" "mlistof"
-                                          "list->mlist" "mlist->list"
-                                          "mlength" "mlist-ref" "mlist-tail"
-                                          "mappend" "mappend!"
-                                          "mreverse" "mreverse!"
-                                          "mmap" "mfor-each"
-                                          "mmember" "mmemv" "mmemq" "massoc"
-                                          "massv" "massq"
-
-                                          "stream-car" "stream-cdr"
-                                          "stream-caar" "stream-cadr"
-                                          "stream-cdar" "stream-cddr"
-                                          "stream-caaar" "stream-caadr"
-                                          "stream-cadar" "stream-caddr"
-                                          "stream-cdaar" "stream-cdadr"
-                                          "stream-cddar" "stream-cdddr"
-                                          "stream-caaaar" "stream-caaadr"
-                                          "stream-caadar" "stream-caaddr"
-                                          "stream-cadaar" "stream-cadadr"
-                                          "stream-caddar" "stream-cadddr"
-                                          "stream-cdaaar" "stream-cdaadr"
-                                          "stream-cdadar" "stream-cdaddr"
-                                          "stream-cddaar" "stream-cddadr"
-                                          "stream-cdddar" "stream-cddddr"
-
-                                          "serializable?" "serialize" "deserialize" "serialized=?"
-                                          "deserialize-module-guard"
-                                          "serializable-struct"
-                                          "define-serializable-struct"
-                                          "serializable-struct/versions"
-                                          "define-serializable-struct/versions"
-                                          "make-deserialize-info"
-                                          "prop:serializable"
-                                          "make-serialize-info"
-
-                                          "s-exp->fasl" "fasl->s-exp"
-
-
-                                          "define-splicing-syntax-class"
-                                          "define-syntax-class"
-
-                                          "define-conventions"
-                                          "define-literal-set"
-                                          "literal-set->predicate"
-
-
-                                          "syntax-parse-state-ref"
-                                          "syntax-parse-state-set!"
-                                          "syntax-parse-state-update!"
-                                          "syntax-parse-state-cons!"
-                                          "syntax-parse-track-literals"
-
-                                          "syntax-class-attributes"
-                                          "syntax-class-arity"
-                                          "syntax-class-keywords"
-                                          "syntax-class-parse"
-                                          "debug-parse"
-                                          "debug-syntax-parse!"
-
-
-                                          "provide-syntax-class/contract"
-                                          "syntax-class/c"
-
-                                          "reify-syntax-class"
-                                          "reified-syntax-class?"
-                                          "reified-splicing-syntax-class?"
-                                          "reified-syntax-class-attributes"
-                                          "reified-syntax-class-arity"
-                                          "reified-syntax-class-keywords"
-                                          "reified-syntax-class-curry"
-
-                                          "~reflect"
-                                          "~splicing-reflect"
-
-                                          "define-primitive-splicing-syntax-class"
-                                          "~eh-var"
-
-                                          "define-syntax-class/specialize"
-                                          "template"
-                                          "template/loc"
-                                          "quasitemplate"
-                                          "quasitemplate/loc"
-                                          "datum-template"
-
-                                          "??"
-                                          "~?"
-                                          "?@"
-                                          "~@"
-                                          "define-template-metafunction"
-
-
-                                          "prop:syntax-class"
-                                          "pattern"
-                                          "attribute"
-                                          "this-syntax"
-
-                                          "prop:pattern-expander"
-                                          "pattern-expander"
-                                          "pattern-expander?"
-                                          "syntax-local-syntax-parse-pattern-introduce"
-
-
-                                          "~!"
-                                          "~bind"
-                                          "~fail"
-                                          "~parse"
-                                          "~do"
-                                          "~undo"
-
-                                          "~var"
-                                          "~literal"
-                                          "~datum"
-
-                                          "~and"
-                                          "~or*"
-                                          "~or"
-                                          "~not"
-
-                                          "~rest"
-                                          "~describe"
-                                          "~commit"
-                                          "~delimit-cut"
-                                          "~post"
-
-                                          "~seq"
-                                          "~optional"
-
-                                          "~peek"
-                                          "~peek-not"
-
-                                          "~alt"
-                                          "~once"
-                                          "~between")
-                                        'symbols)
-                           . font-lock-builtin-face))
-                        t)
-
+;; ;;; set racket-mode
 ;; set indent for racket
 (mapc (lambda (x)
         (put (car x) 'racket-indent-function (cadr x))
@@ -752,86 +771,50 @@
       '((for/stream racket--indent-for)
         (case-λ 0)))
 
-(add-hook 'racket-mode-hook
-          (lambda ()
-            ;; (paredit-mode)
-            ;; (flycheck-mode t)
-            (evil-paredit-mode)
-            (evil-cleverparens-mode)
-            (evil-cp-redefine-keys)
-            (geiser-mode t)
-            (setq-local comment-start "; ")
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)
-                                                 ("trace-lambda" .
-                                                  (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("match-lambda" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("match-lambda*" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?*))
-                                                 ("match-lambda**" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?* (Br . Bl) ?*))
-                                                 ("lambda:" .
-                                                  (?λ (Br . Bl) ?:))
-                                                 ("case-lambda:" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("opt-lambda:" .
-                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("pcase-lambda:" .
-                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("plambda:" .
-                                                  (?p (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
-                                                 ("popt-lambda:" .
-                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))))))
-
-(add-hook 'racket-repl-mode-hook
-          (lambda ()
-            ;; (paredit-mode)
-            (evil-paredit-mode)
-            (evil-cleverparens-mode)
-            (evil-cp-redefine-keys)
-            (geiser-mode t)
-            (setq-local evil-move-cursor-back nil)
-            (setq-local comment-start "; ")
-            (setq-local prettify-symbols-alist '(("lambda" . ?λ)
-                                                 ("case-lambda" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("match-lambda" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ))
-                                                 ("match-lambda*" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?*))
-                                                 ("match-lambda**" .
-                                                  (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?* (Br . Bl) ?*))
-                                                 ("case-lambda:" .
-                                                  (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("opt-lambda:" .
-                                                  (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("pcase-lambda:" .
-                                                  (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))
-                                                 ("plambda:" .
-                                                  (?p (Br . Bl)
-                                                      ?λ (Br . Bl) ?:))
-                                                 ("popt-lambda:" .
-                                                  (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
-                                                      ?- (Br . Bl) ?λ (Br . Bl) ?:))))))
+(dolist (mode-hook '(racket-mode-hook racket-repl-mode-hook))
+  (add-hook mode-hook
+            (lambda ()
+              ;; (paredit-mode)
+              ;; (flycheck-mode t)
+              (evil-paredit-mode)
+              (evil-cleverparens-mode)
+              (evil-cp-redefine-keys)
+              (geiser-mode t)
+              (setq-local comment-start "; ")
+              (setq-local prettify-symbols-alist
+                          '(("lambda" . ?λ)
+                            ("trace-lambda" .
+                             (?t (Br . Bl) ?r (Br . Bl) ?a (Br . Bl) ?c (Br . Bl) ?e (Br . Bl)
+                                 ?- (Br . Bl) ?λ))
+                            ("case-lambda" .
+                             (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                 ?- (Br . Bl) ?λ))
+                            ("match-lambda" .
+                             (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                 ?- (Br . Bl) ?λ))
+                            ("match-lambda*" .
+                             (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?*))
+                            ("match-lambda**" .
+                             (?m (Br . Bl) ?a (Br . Bl) ?t (Br . Bl) ?c (Br . Bl) ?h (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?* (Br . Bl) ?*))
+                            ("lambda:" .
+                             (?λ (Br . Bl) ?:))
+                            ("case-lambda:" .
+                             (?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?:))
+                            ("opt-lambda:" .
+                             (?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?:))
+                            ("pcase-lambda:" .
+                             (?p (Br . Bl) ?c (Br . Bl) ?a (Br . Bl) ?s (Br . Bl) ?e (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?:))
+                            ("plambda:" .
+                             (?p (Br . Bl)
+                                 ?λ (Br . Bl) ?:))
+                            ("popt-lambda:" .
+                             (?p (Br . Bl) ?o (Br . Bl) ?p (Br . Bl) ?t (Br . Bl)
+                                 ?- (Br . Bl) ?λ (Br . Bl) ?:)))))))
 
 ;;; set scribble-mode
 (add-hook 'scribble-mode-hook

@@ -231,12 +231,29 @@
             (setq-local comment-end   " */")))
 
 ;; set lisp-mode face
-(dolist (mode '(scheme-mode racket-mode racket-repl-mode))
+(dolist (mode-hook '(racket-after-run-hook))
+  (add-hook mode-hook
+            (lambda ()
+              (font-lock-add-keywords
+               nil
+               `((,(rx
+                    (seq (? ?#) (or "'" "`" ",@" ",")))
+                  . font-lock-builtin-face))))))
+
+(dolist (mode '(scheme-mode))
   (font-lock-add-keywords
    mode
    `((,(rx
         (seq (? ?#) (or "'" "`" ",@" ",")))
       . font-lock-builtin-face))))
+
+(dolist (mode '(emacs-lisp-mode common-lisp-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(rx
+        (seq (or "'" "`" ",@" ",")))
+      . font-lock-builtin-face))))
+
 
 (dolist (mode '(scheme-mode))
   (font-lock-add-keywords
@@ -570,13 +587,6 @@
           "~once"
           "~between")
         'symbols)
-      . font-lock-builtin-face))))
-
-(dolist (mode '(emacs-lisp-mode common-lisp-mode))
-  (font-lock-add-keywords
-   mode
-   `((,(rx
-        (seq (or "'" "`" ",@" ",")))
       . font-lock-builtin-face))))
 
 (dolist (mode '(emacs-lisp-mode common-lisp-mode))

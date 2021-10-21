@@ -34,6 +34,7 @@
     (sublimity       :location local)
     (vline-mode      :location local)
     ;; (quack-mode      :location local)
+    (quote-face-mode :location local)
     (rash-mode       :location local)
     (scribble-mode   :location local)
     (yin-mode        :location local)
@@ -79,6 +80,13 @@
     :defer t
     :init
     (require 'quack)
+    ))
+
+(defun noah-better-defaults/init-quote-face-mode ()
+  (use-package quote-mode
+    :defer t
+    :init
+    (require 'quote-face-mode)
     ))
 
 (defun noah-better-defaults/init-rash-mode ()

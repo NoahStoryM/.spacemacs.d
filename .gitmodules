@@ -12,3 +12,6 @@
 	path = packages/spacemacs-theme
 	url = https://github.com/NoahStoryM/spacemacs-theme
 	branch = Noah
+[submodule "quote-face-mode"]
+	path = layers/noah-better-defaults/local/quote-face-mode
+	url = https://github.com/NoahStoryM/quote-face-mode

@@ -728,6 +728,7 @@ before packages are loaded."
   (setq electric-pair-delete-adjacent-pairs 'nil)
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   (symon-mode t)
+  (global-quote-face-mode t)
 
   ;; add auto-mode-lists
   (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))

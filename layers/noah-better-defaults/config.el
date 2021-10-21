@@ -40,6 +40,7 @@
 (delete-selection-mode t)
 (global-font-lock-mode t)
 (global-prettify-symbols-mode t)
+(global-font-lock-mode t)
 
 ;; set comment-style
 (setq comment-style 'multi-line)
@@ -231,30 +232,6 @@
             (setq-local comment-end   " */")))
 
 ;; set lisp-mode face
-(dolist (mode-hook '(racket-after-run-hook))
-  (add-hook mode-hook
-            (lambda ()
-              (font-lock-add-keywords
-               nil
-               `((,(rx
-                    (seq (? ?#) (or "'" "`" ",@" ",")))
-                  . font-lock-builtin-face))))))
-
-(dolist (mode '(scheme-mode))
-  (font-lock-add-keywords
-   mode
-   `((,(rx
-        (seq (? ?#) (or "'" "`" ",@" ",")))
-      . font-lock-builtin-face))))
-
-(dolist (mode '(emacs-lisp-mode common-lisp-mode))
-  (font-lock-add-keywords
-   mode
-   `((,(rx
-        (seq (or "'" "`" ",@" ",")))
-      . font-lock-builtin-face))))
-
-
 (dolist (mode '(scheme-mode))
   (font-lock-add-keywords
    mode

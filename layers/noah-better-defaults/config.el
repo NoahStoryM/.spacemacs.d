@@ -681,6 +681,15 @@
         symbol-end)
       . font-lock-constant-face))))
 
+;; Highlight built-in
+(dolist (mode '(racket-mode racket-repl-mode scheme-mode))
+  (font-lock-add-keywords
+   mode
+   `((,(rx ?#
+           (or "hash" "hasheq" "hasheqv"))
+      . font-lock-builtin-face))
+   t))
+
 ;; Highlight Symbol
 (dolist (mode '(emacs-lisp-mode common-lisp-mode scheme-mode))
   (font-lock-add-keywords

@@ -68,9 +68,8 @@
     :init
     (require 'vline-mode)
 
-    ;; set the highlight column color
-    (set-face-background vline-face (face-attribute hl-line-face :background))
-    ;; set idle time
+    ;; basic set
+    (setq vline-visual nil)
     (setq vline-idle-time 1)
 
     (spacemacs/set-leader-keys "t C-v" 'vline-mode)))

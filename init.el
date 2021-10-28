@@ -65,6 +65,8 @@ This function should only modify configuration layer settings."
      (asm :variables
           comment-add 1
           evil-shift-width 4)
+     (ess :variables
+          ess-indent-offset 4)
      (octave :variables
              evil-shift-width 4)
      (python :variables

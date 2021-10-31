@@ -520,6 +520,7 @@ It should only modify the values of Spacemacs settings."
                                                   occur-mode
                                                   minimap-mode
                                                   treemacs-mode
+                                                  geiser-repl-mode
                                                   ibuffer-mode
                                                   magit-mode
                                                   eww-mode

@@ -19,13 +19,11 @@
                  (cond [(eof-object? line) content]
                        [(string-prefix? line "# key:")
                         (cond [(string-suffix? line ".")
-                               (loop (read-line in) (string-append content line "\n"))]
+                               (string-append content line "\n" (port->string in))]
                               [(string-suffix? line ":")
-                               (loop (read-line in)
-                                     (string-append content (string-replace line ":" ".") "\n"))]
+                               (string-append content (string-replace line ":" ".") "\n" (port->string in))]
                               [else
-                               (loop (read-line in)
-                                     (string-append content (string-append line ".\n")))])]
+                               (string-append content (string-append line ".\n") (port->string in))])]
                        [else (loop (read-line in) (string-append content line "\n"))]))))))
 
 

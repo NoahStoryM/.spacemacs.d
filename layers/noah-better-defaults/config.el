@@ -42,6 +42,9 @@
 (global-prettify-symbols-mode t)
 (global-font-lock-mode t)
 
+;; undo tree
+(setq undo-tree-auto-save-history nil)
+
 ;; set comment-style
 (setq comment-style 'multi-line)
 

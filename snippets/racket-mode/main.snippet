@@ -5,14 +5,13 @@
 ${1:(: main [-> String * (Values${2: Any})])
 }(define main
   (λ argv
-    (call/cc
-     (λ ([${3:return} : [->$2 Nothing]])
-       (when (null? argv)
-         (set! argv (vector->list (current-command-line-arguments))))
+    (let/cc ${3:return} :$2
+      (when (null? argv)
+        (set! argv (vector->list (current-command-line-arguments))))
 
 
-       $0
+      $0
 
 
-       ($3 ${4:0})))))
+      ($3 ${4:0}))))
 (module+ main (call-with-values (λ () (main)) exit))

@@ -38,6 +38,8 @@
     (rash-mode       :location local)
     (scribble-mode   :location local)
     (yin-mode        :location local)
+    quack
+    symex
     mips-mode
     on-parens
     evil-textobj-anyblock
@@ -112,6 +114,18 @@
 
 (defun noah-better-defaults/init-on-parens ()
   (use-package on-parens
+    :defer t
+    :init
+    ))
+
+(defun noah-better-defaults/init-quack ()
+  (use-package quack
+    :defer t
+    :init
+    ))
+
+(defun noah-better-defaults/init-symex ()
+  (use-package symex
     :defer t
     :init
     ))

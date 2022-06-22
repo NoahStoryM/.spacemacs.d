@@ -93,7 +93,6 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; ivy
      helm
-     github
      slack
      markdown
      smex
@@ -340,10 +339,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font, or prioritized list of fonts.
-   ;; The `powerline-scale' allows to
-   ;; quickly tweak the mode-line size to make separators look not too crappy.
-   ;; The `:size' can be specified as
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Ubuntu Mono"
@@ -675,7 +671,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ("org"                  . "http://orgmode.org/elpa/")
           ("gnu"                  . "https://elpa.gnu.org/packages/")
 
-          ("nongnu"               .  "https://elpa.nongnu.org/nongnu/")
+          ("nongnu"               . "https://elpa.nongnu.org/nongnu/")
 
           ("melpa-cn"             . "http://elpa.emacs-china.org/melpa/")
           ("org-cn"               . "http://elpa.emacs-china.org/org/")

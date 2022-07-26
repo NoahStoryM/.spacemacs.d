@@ -415,7 +415,7 @@
      (,(regexp-opt
         '(":-" "?" "~" "!="
 
-          "flow" "on" "let/flow"
+          "flow" "on"
           "~>" "~>>"
           "switch"
           "flow-lambda" "π"

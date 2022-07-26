@@ -403,6 +403,10 @@
           "define-syntax-parser"
           "define/syntax-parse"
 
+          "define-flow"
+          "define-switch"
+          "define-qi-foreign-syntaxes"
+
           "untrace" "trace" "trace-call"
           "trace-lambda" "trace-let"
           "trace-define" "trace-define-syntax")
@@ -410,6 +414,29 @@
       . font-lock-keyword-face)
      (,(regexp-opt
         '(":-" "?" "~" "!="
+
+          "flow" "on"
+          "~>" "~>>"
+          "switch"
+          "flow-lambda" "π"
+          "switch-lambda" "λ01"
+
+          "!" "&" "||"
+          "△" "▽"
+          "esc"
+          "clos"
+          "⏚"
+          "X"
+          "==" "==*"
+          "-<" ">-"
+          "fanout"
+          "1>" "2>" "3>" "4>" "5>" "6>" "7>" "8>" "9>"
+          "feedback"
+          "><" "<>"
+          "<<" ">>"
+          "ε"
+          "pass"
+
           ;; "datalog" "datalog!"
           ;; "make-theory" "write-theory" "read-theory" "theory/c"
 

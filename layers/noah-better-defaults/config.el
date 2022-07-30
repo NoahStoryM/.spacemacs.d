@@ -418,8 +418,8 @@
           "flow" "on"
           "~>" "~>>"
           "switch"
-          "flow-lambda" "π"
-          "switch-lambda" "λ01"
+          "flow-lambda"   "flow-λ"   "π"
+          "switch-lambda" "switch-λ" "λ01"
 
           "!" "&" "||"
           "△" "▽"

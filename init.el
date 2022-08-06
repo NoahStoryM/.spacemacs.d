@@ -342,8 +342,8 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("DejaVu Sans Mono"
-                               :size 24
+   dotspacemacs-default-font '("Hack"
+                               :size 18.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -741,7 +741,7 @@ before packages are loaded."
   ;; Solve the problem of alignment between Chinese and English in the org table
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)
-      (spacemacs//set-monospaced-font "Ubuntu Mono" "Hiragino Sans GB" 14 16)))
+      (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 14 16)))
 
   ;; Setting Chinese Font
   (when (and (spacemacs/system-is-mswindows) window-system)

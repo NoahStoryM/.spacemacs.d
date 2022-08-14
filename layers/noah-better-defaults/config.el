@@ -436,7 +436,7 @@
           "<<<" ">>>"
           "<<" ">>"
           "ε"
-          "fanout"
+          "fanout" "fanin"
           "feedback"
           "pass"
 

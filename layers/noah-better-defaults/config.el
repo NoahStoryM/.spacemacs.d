@@ -806,7 +806,33 @@
         (let ((typed (intern (format "%s:" (car x)))))
           (put typed 'racket-indent-function (cadr x))))
       '((for/stream racket--indent-for)
-        (case-λ 0)))
+        (case-λ 0)
+
+        (~> 0)
+        (~>> 0)
+        (on 1)
+
+        (☯ 0)
+        (flow 0)
+        (flow-lambda defun)
+        (flow-λ defun)
+        (π defun)
+
+        (switch 1)
+        (switch-lambda defun)
+        (switch-λ defun)
+        (λ10 defun)
+
+        (try 1)
+
+        (==* 0)
+        (==+ 0)
+
+        (-< 0)
+        (>- 0)
+
+        (>< 0)
+        (<> 0)))
 
 (dolist (mode-hook '(racket-mode-hook racket-repl-mode-hook))
   (add-hook mode-hook

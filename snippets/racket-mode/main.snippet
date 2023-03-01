@@ -5,7 +5,7 @@
 ${1:(: main (->* () ((Vectorof String)) ${2:Any}))
 }(define main
   (λ ([argv (current-command-line-arguments)])
-    (let/cc ${3:return} : $2
+    (let/cc ${4:return}${3: : $2}
       $0
-      ($3 ${4:0}))))
-(module+ main (main))
+      ($4 ${5:#t}))))
+(module+ main (exit (main)))

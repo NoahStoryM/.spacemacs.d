@@ -27,7 +27,7 @@
                        [else (loop (read-line in) (string-append content line "\n"))]))))))
 
 
-        (call-with-output-file file-path #:exists 'replace
+        (call-with-output-file file-path #:exists 'truncate/replace
           (λ ([out : Output-Port]) : Void
             (display new-content out)))))
 

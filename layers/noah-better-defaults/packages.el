@@ -38,6 +38,7 @@
     (rash-mode       :location local)
     (scribble-mode   :location local)
     (yin-mode        :location local)
+    (lll-mode        :location local)
     quack
     symex
     mips-mode
@@ -109,7 +110,16 @@
     :defer t
     :init
     (require 'yin-mode)
-    (add-to-list 'auto-mode-alist '("\\.yin\\'" . yin-mode))
+    (add-to-list 'auto-mode-alist '("\\.yin$" . yin-mode))
+    ))
+
+(defun noah-better-defaults/init-lll-mode ()
+  (use-package lll-mode
+    :defer t
+    :init
+    (require 'lll-mode)
+    (add-to-list 'auto-mode-alist '("\\.lll$" . lll-mode))
+    (add-hook 'lll-mode-hook 'electric-pair-mode)
     ))
 
 (defun noah-better-defaults/init-on-parens ()

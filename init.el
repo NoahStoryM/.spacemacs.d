@@ -47,6 +47,7 @@ This function should only modify configuration layer settings."
      javascript
      typescript
      php
+     lua
      emacs-lisp common-lisp
      clojure
      scheme racket
@@ -57,6 +58,7 @@ This function should only modify configuration layer settings."
      sql
      vimscript
      sml
+     solidity
      ruby
      rust
      html

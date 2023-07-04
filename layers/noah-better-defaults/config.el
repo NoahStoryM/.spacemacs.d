@@ -443,6 +443,8 @@
           "feedback"
           "pass"
 
+          "for/amb" "for*/amb"
+
           ;; "datalog" "datalog!"
           ;; "make-theory" "write-theory" "read-theory" "theory/c"
 

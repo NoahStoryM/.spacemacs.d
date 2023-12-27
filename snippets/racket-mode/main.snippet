@@ -2,10 +2,10 @@
 # name: main module
 # key: main.
 # --
-${1:(: main (->* () ((Vectorof String)) ${2:Any}))
+${1:(: main (->* () ((Vectorof String)) (Values${2: Any})))
 }(define main
   (λ ([argv (current-command-line-arguments)])
-    (let/cc ${4:return}${3: : $2}
+    (let/cc ${4:return}${3: : (Values$2)}
       $0
-      ($4 ${5:#t}))))
-(module+ main (exit (main)))
+      ($4$5))))
+(module+ main (call-with-values main exit))

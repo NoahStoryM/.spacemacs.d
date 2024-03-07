@@ -30,7 +30,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-ask-for-lazy-installation t
 
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
@@ -90,8 +90,8 @@ This function should only modify configuration layer settings."
 
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
+     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+     ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;; ivy
      helm
@@ -334,8 +334,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark
                          solarized-dark
                          solarized-light
                          dracula)
@@ -435,6 +435,10 @@ It should only modify the values of Spacemacs settings."
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
+   ;; It is also possible to use a posframe with the following cons cell
+   ;; `(posframe . position)' where position can be one of `center',
+   ;; `top-center', `bottom-center', `top-left-corner', `top-right-corner',
+   ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
 
@@ -694,9 +698,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
           ("nongnu"               . "https://elpa.nongnu.org/nongnu/")
 
-          ("melpa-cn"             . "http://elpa.emacs-china.org/melpa/")
-          ("org-cn"               . "http://elpa.emacs-china.org/org/")
-          ("gnu-cn"               . "http://elpa.emacs-china.org/gnu/")
+          ;; ("melpa-cn"             . "http://elpa.emacs-china.org/melpa/")
+          ;; ("org-cn"               . "http://elpa.emacs-china.org/org/")
+          ;; ("gnu-cn"               . "http://elpa.emacs-china.org/gnu/")
           ;; ("marmalade-cn"         . "http://elpa.emacs-china.org/marmalade/")
           ;; ("user42-cn"            . "http://elpa.emacs-china.org/user42/")
           ;; ("melpa-stable-cn"      . "http://elpa.emacs-china.org/melpa-stable/")
@@ -753,7 +757,7 @@ before packages are loaded."
   (setq treemacs-width 20)
   (setq electric-pair-delete-adjacent-pairs 'nil)
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-  (symon-mode t)
+  ;; (symon-mode t)
   (global-quote-face-mode t)
 
   ;; add auto-mode-lists
@@ -955,3 +959,7 @@ Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
 
   )
+
+
+;; Do not write anything past this comment. This is where Emacs will
+;; auto-generate custom variable definitions.

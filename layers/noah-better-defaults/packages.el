@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst noah-better-defaults-packages
-  `(
+  '(
     (sublimity       :location local)
     (vline-mode      :location local)
     ;; (quack-mode      :location local)

@@ -691,23 +691,27 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  (setq configuration-layer-elpa-archives
+  (defvar elpa-cn
+    ;; "https://mirrors.tuna.tsinghua.edu.cn/elpa/"
+    ;; "https://mirrors.163.com/elpa/"
+    ;; "https://elpa.emacs-china.org/"
+    "http://1.15.88.122/"
+    )
+  (setq package-archives 
         '(("melpa"                . "https://melpa.org/packages/")
-          ("org"                  . "http://orgmode.org/elpa/")
+          ("stable-melpa"         . "https://stable.melpa.org/packages/")
+          ("org"                  . "https://orgmode.org/elpa/")
           ("gnu"                  . "https://elpa.gnu.org/packages/")
-
-          ("nongnu"               . "https://elpa.nongnu.org/nongnu/")
-
-          ;; ("melpa-cn"             . "http://elpa.emacs-china.org/melpa/")
-          ;; ("org-cn"               . "http://elpa.emacs-china.org/org/")
-          ;; ("gnu-cn"               . "http://elpa.emacs-china.org/gnu/")
-          ;; ("marmalade-cn"         . "http://elpa.emacs-china.org/marmalade/")
-          ;; ("user42-cn"            . "http://elpa.emacs-china.org/user42/")
-          ;; ("melpa-stable-cn"      . "http://elpa.emacs-china.org/melpa-stable/")
-          ;; ("sunrise-commander-cn" . "http://elpa.emacs-china.org/sunrise-commander/")
-          ))
+          ("nongnu"               . "https://elpa.nongnu.org/nongnu/")))
+  (setq configuration-layer-elpa-archives
+        `(("melpa-cn"             . ,(concat elpa-cn "melpa/"))
+          ("stable-melpa-cn"      . ,(concat elpa-cn "stable-melpa/"))
+          ("org-cn"               . ,(concat elpa-cn "org/"))
+          ("gnu-cn"               . ,(concat elpa-cn "gnu/"))
+          ("nongnu-cn"            . ,(concat elpa-cn "nongnu/"))
+          .
+          ,package-archives))
   (setq configuration-layer--elpa-archives configuration-layer-elpa-archives)
-  (setq package-archives configuration-layer-elpa-archives)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/2705
   ;; (setq tramp-mode nil)

@@ -724,7 +724,7 @@
   (font-lock-add-keywords
    mode
    `((,(rx ?#
-           (or "hash" "hasheq" "hasheqv"))
+           (or "hash" "hasheq" "hasheqv" "hashalw"))
       . font-lock-builtin-face))
    t))
 

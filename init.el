@@ -763,6 +763,7 @@ before packages are loaded."
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   ;; (symon-mode t)
   (global-quote-face-mode t)
+  (setq show-paren-style 'expression)
 
   ;; add auto-mode-lists
   (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))

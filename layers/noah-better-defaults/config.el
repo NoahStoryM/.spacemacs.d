@@ -253,7 +253,7 @@
           "set!"
           "eval" "apply"
           "filter"
-          "amb"
+          "amb""amb*"
           "case-λ"
 
           "untrace" "trace" "trace-call"
@@ -398,7 +398,7 @@
   (font-lock-add-keywords
    mode
    `((,(regexp-opt
-        '("eval" "case-λ" "amb" "." "...+" "fn"
+        '("eval" "case-λ" "amb" "amb*" "." "...+" "fn"
 
           "define-syntax-parser"
           "define/syntax-parse"

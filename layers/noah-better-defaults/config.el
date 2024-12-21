@@ -444,6 +444,7 @@
           "pass"
 
           "for/amb" "for*/amb"
+          "in-amb" "in-amb*"
 
           ;; "datalog" "datalog!"
           ;; "make-theory" "write-theory" "read-theory" "theory/c"

@@ -50,7 +50,6 @@ This function should only modify configuration layer settings."
      lua
      emacs-lisp common-lisp
      clojure
-     scheme racket
      coq
      agda
      idris
@@ -61,7 +60,10 @@ This function should only modify configuration layer settings."
      solidity
      ruby
      rust
+     racket
      html
+     (scheme :variables
+             scheme-implementations '(chez racket))
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode)
      (asm :variables

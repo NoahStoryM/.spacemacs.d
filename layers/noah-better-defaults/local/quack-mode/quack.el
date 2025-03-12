@@ -3111,7 +3111,7 @@ Can be used in your `~/.emacs' file something like this:
            (switch-to-buffer-other-window repl-buf))
 
           ;; The following code may be revived if anyone reports problems with
-          ;; the use of `special-display-popup-frame'.
+          ;; the use of `display-buffer-pop-up-frame'.
           ;;
           ;; ((eq quack-switch-to-scheme-method 'own-frame)
           ;;  (let ((pop-up-frames                t)
@@ -3123,7 +3123,7 @@ Can be used in your `~/.emacs' file something like this:
 
           ((eq quack-switch-to-scheme-method 'own-frame)
            (quack-force-frame-switch-to-window
-            (special-display-popup-frame repl-buf)))
+            (display-buffer-pop-up-frame repl-buf nil)))
 
           (t (error "Invalid quack-switch-to-scheme-method: %S"
                     quack-switch-to-scheme-method)))))

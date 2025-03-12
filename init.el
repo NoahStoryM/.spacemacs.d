@@ -209,14 +209,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default (format "spacemacs-%s.pdmp" emacs-version))
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
-   ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
-   ;; possible. Set it to nil if you have no way to use HTTPS in your
-   ;; environment, otherwise it is strongly recommended to let it set to t.
-   ;; This variable has no effect if Emacs is launched with the parameter
-   ;; `--insecure' which forces the value of this variable to nil.
-   ;; (default t)
-   dotspacemacs-elpa-https t
-
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
    dotspacemacs-elpa-timeout 5
@@ -239,7 +231,7 @@ It should only modify the values of Spacemacs settings."
    ;; latest version of packages from MELPA. Spacelpa is currently in
    ;; experimental state please use only for testing purposes.
    ;; (default nil)
-   dotspacemacs-use-spacelpa t
+   dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
    ;; (default t)
@@ -307,7 +299,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-startup-buffer-multi-digit-delay 0.4
 
    ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
-   ;; This has no effect in terminal or if "all-the-icons" package or the font
+   ;; This has no effect in terminal or if "nerd-icons" package or the font
    ;; is not installed. (default nil)
    dotspacemacs-startup-buffer-show-icons nil
 
@@ -333,7 +325,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
-   ;; with 2 themes variants, one dark and one light)
+   ;; with 2 themes variants, one dark and one light). A theme from external
+   ;; package can be defined with `:package', or a theme can be defined with
+   ;; `:location' to download the theme package, refer the themes section in
+   ;; DOCUMENTATION.org for the full theme specifications.
    dotspacemacs-themes '(spacemacs-light
                          spacemacs-dark
                          solarized-dark
@@ -353,7 +348,9 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; Default font or prioritized list of fonts. This setting has no effect when
+   ;; running Emacs in terminal. The font set here will be used for default and
+   ;; fixed-pitch faces. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Hack"
@@ -449,6 +446,22 @@ It should only modify the values of Spacemacs settings."
    ;; displayed in the current window. (default nil)
    dotspacemacs-switch-to-buffer-prefers-purpose nil
 
+   ;; Whether side windows (such as those created by treemacs or neotree)
+   ;; are kept or minimized by `spacemacs/toggle-maximize-window' (SPC w m).
+   ;; (default t)
+   dotspacemacs-maximize-window-keep-side-windows t
+
+   ;; If nil, no load-hints enabled. If t, enable the `load-hints' which will
+   ;; put the most likely path on the top of `load-path' to reduce walking
+   ;; through the whole `load-path'. It's an experimental feature to speedup
+   ;; Spacemacs on Windows. Refer the FAQ.org "load-hints" session for details.
+   dotspacemacs-enable-load-hints nil
+
+   ;; If t, enable the `package-quickstart' feature to avoid full package
+   ;; loading, otherwise no `package-quickstart' attemption (default nil).
+   ;; Refer the FAQ.org "package-quickstart" section for details.
+   dotspacemacs-enable-package-quickstart nil
+
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
@@ -529,31 +542,31 @@ It should only modify the values of Spacemacs settings."
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers '(:relative t
-                               :visual t
-                               :enabled-for-modes prog-mode
-                                                  matlab-mode
-                                                  ams-tex-mode
-                                                  vimrc-mode
-                                                  json-mode
-                                                  toml-mode
-                                                  text-mode
-                                                  org-mode
-                                                  markdown-mode
-                                                  conf-unix-mode
-                                                  dired-mode
-                                                  occur-mode
-                                                  minimap-mode
-                                                  treemacs-mode
-                                                  geiser-repl-mode
-                                                  ibuffer-mode
-                                                  magit-mode
-                                                  eww-mode
-                                                  ein:notebook-multilang-mode
-                                                  ein:notebooklist-mode
-                               :disabled-for-modes fundamental-mode
-                                                   doc-view-mode
-                                                   pdf-view-mode
-                               :size-limit-kb 1000)
+                                         :visual t
+                                         :enabled-for-modes prog-mode
+                                         matlab-mode
+                                         ams-tex-mode
+                                         vimrc-mode
+                                         json-mode
+                                         toml-mode
+                                         text-mode
+                                         org-mode
+                                         markdown-mode
+                                         conf-unix-mode
+                                         dired-mode
+                                         occur-mode
+                                         minimap-mode
+                                         treemacs-mode
+                                         geiser-repl-mode
+                                         ibuffer-mode
+                                         magit-mode
+                                         eww-mode
+                                         ein:notebook-multilang-mode
+                                         ein:notebooklist-mode
+                                         :disabled-for-modes fundamental-mode
+                                         doc-view-mode
+                                         pdf-view-mode
+                                         :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -580,7 +593,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
-   dotspacemacs-enable-server t
+   dotspacemacs-enable-server nil
 
    ;; Set the emacs server socket location.
    ;; If nil, uses whatever the Emacs default is, otherwise a directory path
@@ -597,6 +610,13 @@ It should only modify the values of Spacemacs settings."
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
    dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
+
+   ;; The backend used for undo/redo functionality. Possible values are
+   ;; `undo-fu', `undo-redo' and `undo-tree' see also `evil-undo-system'.
+   ;; Note that saved undo history does not get transferred when changing
+   ;; your undo system. The default is currently `undo-fu' as `undo-tree'
+   ;; is not maintained anymore and `undo-redo' is very basic."
+   dotspacemacs-undo-system 'undo-fu
 
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
@@ -633,6 +653,9 @@ It should only modify the values of Spacemacs settings."
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; The variable `global-spacemacs-whitespace-cleanup-modes' controls
+   ;; which major modes have whitespace cleanup enabled or disabled
+   ;; by default.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
@@ -692,12 +715,12 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (defvar elpa-cn
-    ;; "https://mirrors.tuna.tsinghua.edu.cn/elpa/"
+    "https://mirrors.tuna.tsinghua.edu.cn/elpa/"
     ;; "https://mirrors.163.com/elpa/"
     ;; "https://elpa.emacs-china.org/"
-    "http://1.15.88.122/"
+    ;; "http://1.15.88.122/"
     )
-  (setq package-archives 
+  (setq package-archives
         '(("melpa"                . "https://melpa.org/packages/")
           ("stable-melpa"         . "https://stable.melpa.org/packages/")
           ("org"                  . "https://orgmode.org/elpa/")
@@ -738,16 +761,16 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-
+  
 ;;;; require packages
   (require 'package)
   (require 'youdao-dictionary)
 
-
+  
 ;;;; add keybindings
 
 
-
+  
 ;;;; configurations
 
 
@@ -764,6 +787,7 @@ before packages are loaded."
   ;; (symon-mode t)
   (global-quote-face-mode t)
   (setq show-paren-style 'expression)
+
 
   ;; add auto-mode-lists
   (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
@@ -784,7 +808,7 @@ before packages are loaded."
                         (font-spec :family "Microsoft Yahei" :size 14))))
 
 
-
+  
 ;;;; add some functions in relation to packages or layers
 
 
@@ -910,8 +934,8 @@ When the previous sexp is a sexp comment the sexp itself is sent,
 without the #; prefix."
     (interactive)
     (cond ((or (looking-at ")")
-            (looking-at "]")
-            (looking-at "}"))
+               (looking-at "]")
+               (looking-at "}"))
            (right-char)
            (insert " ")
            (racket-send-last-sexp)

@@ -253,7 +253,7 @@
           "set!"
           "eval" "apply"
           "filter"
-          "amb""amb*"
+          "amb" "amb*"
           "case-λ"
 
           "untrace" "trace" "trace-call"

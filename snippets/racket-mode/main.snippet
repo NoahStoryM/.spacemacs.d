@@ -2,10 +2,8 @@
 # name: main module
 # key: main.
 # --
-${1:(: main (->* () ((Vectorof String)) (Values${2: Any})))
-}(define main
-  (λ ([argv (current-command-line-arguments)])
-    (let/cc ${4:return}${3: : (Values$2)}
-      $0
-      ($4$5))))
+${1:(: main (→* () ((Vectorof String)) Any))
+}(define (main [argv (current-command-line-arguments)])
+  $0
+  (values${2: #t}))
 (module+ main (call-with-values main exit))

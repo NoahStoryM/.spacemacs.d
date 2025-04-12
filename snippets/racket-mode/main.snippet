@@ -4,6 +4,7 @@
 # --
 ${1:(: main (→* () ((Vectorof String)) Any))
 }(define (main [argv (current-command-line-arguments)])
+  (define argc (vector-length argv))
   $0
   (values${2: #t}))
 (module+ main (call-with-values main exit))
